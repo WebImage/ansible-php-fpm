@@ -1,0 +1,25 @@
+---
+- name: Install PHP-FPM
+  yum:
+    name: "{{ php_fpm_package }}"
+    state: present
+    enablerepo: "{{ php_enable_repo | default(omit) }}"
+  notify: Restart Webserver
+
+- name: Ensure PHP-FPM service started
+  service:
+    name: "{{ php_fpm_service }}"
+    state: started
+    enabled: true
+
+- name: Configure PHP-FPM
+  ini_file:
+    path: "{{ php_ini_directory }}/{{ item.file }}"
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+  with_items: "{{ php_fpm_ini_settings }}"
+  notify:
+    - Restart PHP-FPM
+    - Restart Webserver
+  when: php_fpm_ini_settings | length > 0

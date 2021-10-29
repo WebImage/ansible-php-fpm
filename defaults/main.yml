@@ -1,0 +1,11 @@
+---
+# The name of the Yum package to be installed
+php_fpm_package: php-fpm
+# The name of the PHP-FPM service
+php_fpm_service: php-fpm
+# Settings for .ini files
+php_fpm_ini_settings: []
+#  - file: php-fpm.d/www.conf
+#    section: www
+#    option: listen
+#    value: /var/run/php-fpm/php-fpm.sock
